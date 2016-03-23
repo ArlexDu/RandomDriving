@@ -20,10 +20,12 @@ public class BallMove : MonoBehaviour
 		if (transform.position.x == GameObject.Find ("0").transform.position.x) {
 			goal = GameObject.Find ("AIStop1").transform;
 			way_name = "go1";
-		} else if (transform.position.x == GameObject.Find ("1").transform.position.x) {
+		} else if (transform.position.x == GameObject.Find ("1").transform.position.x
+		           &&transform.position.z > GameObject.Find ("1").transform.position.z) {
 			goal = GameObject.Find ("AIStop2").transform;
 			way_name = "go2";
-		} else if (transform.position.x == GameObject.Find ("2").transform.position.x) {
+		} else if (transform.position.x == GameObject.Find ("2").transform.position.x
+		           &&transform.position.z < GameObject.Find ("1").transform.position.z) {
 			goal = GameObject.Find ("AIStop2").transform;
 			way_name = "go3";
 		} else if (transform.position.x == GameObject.Find ("3").transform.position.x) {

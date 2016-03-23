@@ -131,7 +131,7 @@ public class AICarCreate : MonoBehaviour {
 				newcar[create_number] = (GameObject)Instantiate(createcar, new Vector3(space.transform.position.x, space.transform.position.y, 
 				                                                                       space.transform.position.z), new Quaternion(0, 0, 0, 0));
 			//	AllowRightManager.front_car = newcar[create_number];
-                //Debug.Log(path_name);
+                Debug.Log("create "+path_name);
             }
             else{
 				//Debug.Log("redo go2");
@@ -167,7 +167,7 @@ public class AICarCreate : MonoBehaviour {
 	    StartCoroutine(wait(2));
 	}
 	private IEnumerator redo(string path){
-		yield return new WaitForSeconds (5);
+		yield return new WaitForSeconds (3);
 		if (path == "go2") {
 			none_Rfrontcar = true;
 		} else if (path == "go3") {
