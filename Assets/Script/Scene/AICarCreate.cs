@@ -123,7 +123,7 @@ public class AICarCreate : MonoBehaviour {
 			}else{
 				newcar [create_number] = (GameObject)Instantiate (createcar, new Vector3 (space.transform.position.x, space.transform.position.y, 
 				                                                                          space.transform.position.z), new Quaternion (0, 1, 0, 0));
-				Debug.Log(path_name);
+	//			Debug.Log(path_name);
 			}
 		} else if (pathname == "go2") {
 			if(positionOneOkay){
@@ -131,7 +131,7 @@ public class AICarCreate : MonoBehaviour {
 				newcar[create_number] = (GameObject)Instantiate(createcar, new Vector3(space.transform.position.x, space.transform.position.y, 
 				                                                                       space.transform.position.z), new Quaternion(0, 0, 0, 0));
 			//	AllowRightManager.front_car = newcar[create_number];
-                Debug.Log("create "+path_name);
+//                Debug.Log("create "+path_name);
             }
             else{
 				//Debug.Log("redo go2");

@@ -35,7 +35,7 @@ public class BallMove : MonoBehaviour
 			goal = GameObject.Find ("AIStop4").transform;
 			way_name = "go5";
 		}
-		Debug.Log ("target is "+goal.name);
+//		Debug.Log ("target is "+goal.name);
 	}
 	
 	// Update is called once per frame
@@ -74,5 +74,9 @@ public class BallMove : MonoBehaviour
 			}
 
 		}
+	}
+	//控制车辆的类会调用这个函数获得当前的位置
+	public string getpath(){
+		return way_name;
 	}
 }
