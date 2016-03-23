@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+/*
+ * @description:变换生成车的位置点，z轴随车变化
+ */
 public class newcarposition : MonoBehaviour {
 
 	private GameObject suv;

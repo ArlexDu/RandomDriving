@@ -17,8 +17,8 @@ public class CanvasManager : MonoBehaviour {
 	}
 	
 	void FixedUpdate () {
-        front_change = (float)2.5 * (GetComponent<CreateCars>().GetDistanceFront());
-        back_change = (float)2.5 * (GetComponent<CreateCars>().GetDistanceBack());
+//        front_change = (float)2.5 * (GetComponent<CreateCars>().GetDistanceFront());
+//       back_change = (float)2.5 * (GetComponent<CreateCars>().GetDistanceBack());
         CheckEdge();
         frontCar.rectTransform.position = new Vector3(frontCar.rectTransform.position.x, mCar.rectTransform.position.y + front_change, 0);
         backCar.rectTransform.position = new Vector3(backCar.rectTransform.position.x, mCar.rectTransform.position.y + back_change, 0);

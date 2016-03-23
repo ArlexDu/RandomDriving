@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+/*
+ * @description:用于驾驶车辆的控制
+ */ 
 public class CarControl : MonoBehaviour {
 
     //碰撞体的声明

@@ -1,10 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * @description:用于自动生成车到上面的车
+ *              同时为了避免生成车的地点重复，发生碰撞
+ */
 public class AICarCreate : MonoBehaviour {
 
-	public GameObject[] car = new GameObject[4];//四种车型
-	public Transform[] positions = new Transform[5];//三个起始位置
+	public GameObject[] car = new GameObject[3];//四种车型
+	public Transform[] positions = new Transform[5];//五个起始位置
 	static public GameObject[] newcar = new GameObject[5];
 	private GameObject createcar;
 	private int create_number = 0;
@@ -17,12 +21,15 @@ public class AICarCreate : MonoBehaviour {
 	private bool none_Rcome  = true;
 	private bool none_Lcome  = true;
 	private bool isCreating = false;
+	private bool positionOneOkay = true;
 	private bool positionTwoOkay = true;
-	private bool positionThreeOkay = true;
 	public Transform end;
+	private int car_num = 0;
+	GameObject frontCar;
+	GameObject backCar;
 	// Use this for initialization
 	void Start () {
-
+		car_num = car.Length;
 	}
 
 	// Update is called once per frame
@@ -50,7 +57,7 @@ public class AICarCreate : MonoBehaviour {
 	
 	//选择生成的车型
 	private void chooseCar(){
-		int num = Random.Range (0, 4);
+		int num = Random.Range (0, car_num);
 		createcar = car[num];
 	}
 	
@@ -97,7 +104,7 @@ public class AICarCreate : MonoBehaviour {
 	 */
 	private void CreateCar(string path_name){
 		isCreating = true;
-		//Debug.Log ("close");
+		//Debug.Log ("should create " +path_name);
 		chooseCar ();
 		choosePoistion (path_name);
 	    //这表明当前是生成在我们驾驶的方向
@@ -116,14 +123,14 @@ public class AICarCreate : MonoBehaviour {
 			}else{
 				newcar [create_number] = (GameObject)Instantiate (createcar, new Vector3 (space.transform.position.x, space.transform.position.y, 
 				                                                                          space.transform.position.z), new Quaternion (0, 1, 0, 0));
-				//Debug.Log(path_name);
+				Debug.Log(path_name);
 			}
 		} else if (pathname == "go2") {
-			if(positionTwoOkay){
+			if(positionOneOkay){
                 //if (AllowRightManager.pick != null) Destroy(AllowRightManager.pick);
 				newcar[create_number] = (GameObject)Instantiate(createcar, new Vector3(space.transform.position.x, space.transform.position.y, 
 				                                                                       space.transform.position.z), new Quaternion(0, 0, 0, 0));
-                //AllowRightManager.pick = newcar[create_number];
+			//	AllowRightManager.front_car = newcar[create_number];
                 //Debug.Log(path_name);
             }
             else{
@@ -135,13 +142,13 @@ public class AICarCreate : MonoBehaviour {
 			}
 
 		}else if (pathname == "go3") {
-			if(positionThreeOkay){
+			if(positionTwoOkay){
                 //if (AllowRightManager.truck != null) Destroy(AllowRightManager.truck);
                 newcar[create_number] = (GameObject)Instantiate(createcar, new Vector3(space.transform.position.x, space.transform.position.y, 
 				                                                                       space.transform.position.z), new Quaternion(0, 0, 0, 0));
                 
-                //AllowRightManager.truck = newcar[create_number];
-                //Debug.Log(path_name);
+			//	AllowRightManager.back_car = newcar[create_number];
+              //  Debug.Log(path_name);
             }
             else{
 				//Debug.Log("redo go3");
@@ -171,10 +178,7 @@ public class AICarCreate : MonoBehaviour {
 			none_Lcome = true;
 		}
 	}
-	//外部调用pathname的接口
-	public string getpathname(){
-		return pathname;
-	}
+
 	//make the clonecar be seen
 	private void show(){
 		//ArrayList-->集合的一种，其中可以放任何类型，不受限制，长度可变，自增加长度
@@ -213,11 +217,12 @@ public class AICarCreate : MonoBehaviour {
 	}
 
 	public void reCreate(string name){
+		Debug.Log("newcar in "+ name);
 		StartCoroutine (changestatus (name));
 	}
 
 	private IEnumerator changestatus(string name){
-		yield return new WaitForSeconds(5);
+		yield return new WaitForSeconds(3);
 		if (name == "go1") {
 			none_frontcar = true;
 		} else if (name == "go2") {
@@ -231,12 +236,12 @@ public class AICarCreate : MonoBehaviour {
 		}
 	}
 
-	public void JudgeCreatePositionTwo(bool isok){
-		positionTwoOkay = isok;
+	public void JudgeCreatePositionOne(bool isok){
+		positionOneOkay = isok;
 	}
 
-	public void JudgeCreatePositionThree(bool isok){
-		positionThreeOkay = isok;
+	public void JudgeCreatePositionTwo(bool isok){
+		positionTwoOkay = isok;
 	}
 
     public GameObject getOneOfFive(int creatNumber)
