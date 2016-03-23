@@ -12,6 +12,17 @@ public class BackBallDetection : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		carbody = car.GetComponent<Rigidbody> ();
+		//设定后触发器的位置
+		if (transform.position.z < transform.parent.GetChild (1).transform.position.z) {
+			transform.position = new Vector3 (transform.parent.GetChild (1).transform.position.x, 
+			                                  transform.parent.GetChild (1).transform.position.y,
+			                                  transform.parent.GetChild (1).transform.position.z - 30);
+		} else {
+			transform.position = new Vector3 (transform.parent.GetChild (1).transform.position.x, 
+			                                  transform.parent.GetChild (1).transform.position.y,
+			                                  transform.parent.GetChild (1).transform.position.z + 30);
+		}
+
 	}
 	
 	// Update is called once per frame

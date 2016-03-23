@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 /*
- * @description:用于控制AI车辆随机的状态
+ * @description:用于控制AI车辆随机的状态,随机的变化车的加速度
  * 
  */ 
 public class AutoCarControl : MonoBehaviour {
@@ -17,6 +17,7 @@ public class AutoCarControl : MonoBehaviour {
 	private float accelerate = 0f;
 	private float handbrakemotor = 0;
 	private string way_path;
+	private bool freedom = true;
 	// Use this for initialization
 	void Start () {
 		GetComponent<Rigidbody> ().centerOfMass = new Vector3 (0, -2, 0);
@@ -24,6 +25,7 @@ public class AutoCarControl : MonoBehaviour {
 		minspeed = GameObject.Find("SUV").GetComponent<Rigidbody>().velocity.magnitude;
 	//	Debug.Log ("minspeed is "+minspeed);
 		way_path = transform.parent.GetChild (0).GetComponent<BallMove> ().getpath ();
+		InvokeRepeating ("changeState", 2, 3);
 	//	Debug.Log ("current way " + way_path);
 	}
 
@@ -37,6 +39,7 @@ public class AutoCarControl : MonoBehaviour {
 		//刹车
 		if (handbrakemotor != 0) {
 			motor = 0;
+			Debug.Log("stop!!!");
 		} else {//正常行驶
 			float speed = GetComponent<Rigidbody> ().velocity.magnitude;
 			//Debug.Log ("speed is "+ speed);
@@ -49,10 +52,17 @@ public class AutoCarControl : MonoBehaviour {
 					GetComponent<Rigidbody> ().velocity=Vector3.forward*minspeed;
 				}
 			} else {
+				//避免需要刹车的时候这个最小速度的存在导致不能减速
+				minspeed = 0;
 				brakemotor = 0;
 				motor = motor+accelerate*Time.deltaTime;
+				if(motor<0){
+					motor = 0;
+				}
+			//	Debug.Log("current motor is "+motor);
 			}
 		}
+		transform.GetComponent<Rigidbody> ().AddForce (Vector3.down*1000);
 		wheelcoilder[2].motorTorque=
 			wheelcoilder[3].motorTorque=motor;  //车的动力
 		wheelcoilder[2].brakeTorque = wheelcoilder[3].brakeTorque=handbrakemotor;//应用刹车动力
@@ -78,14 +88,24 @@ public class AutoCarControl : MonoBehaviour {
 		
 	}
 	public void SlowDown(int bm){
-		//Debug.Log ("Slow down");
+		Debug.Log ("Slow down");
 		handbrakemotor = bm;
+		freedom = false;
 	}
 	public void Normal(){
 		//Debug.Log ("Normal");
 		handbrakemotor = 0;
+		freedom = true;
 	}
 	public void SpeedUp(){
+		handbrakemotor = 0;
+		accelerate = 300;
+		freedom = false;
+	}
 
+	private void changeState(){
+		if (freedom) {
+			accelerate = Random.Range (-300,200);
+		}
 	}
 }

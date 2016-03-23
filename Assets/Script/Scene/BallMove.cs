@@ -36,6 +36,17 @@ public class BallMove : MonoBehaviour
 			way_name = "go5";
 		}
 //		Debug.Log ("target is "+goal.name);
+		//设置前引导球的位置
+		if (transform.position.z > transform.parent.GetChild (1).transform.position.z) {
+			transform.position = new Vector3 (transform.parent.GetChild (1).transform.position.x, 
+			                                  transform.parent.GetChild (1).transform.position.y,
+			                                  transform.parent.GetChild (1).transform.position.z + 30);
+		} else {
+			transform.position = new Vector3 (transform.parent.GetChild (1).transform.position.x, 
+			                                  transform.parent.GetChild (1).transform.position.y,
+			                                  transform.parent.GetChild (1).transform.position.z - 30);
+		}
+
 	}
 	
 	// Update is called once per frame
@@ -57,9 +68,9 @@ public class BallMove : MonoBehaviour
 	{  
 		//碰撞检测，碰到前车的话要刹车
 		if (go.transform.name == "Car") {
-			transform.parent.GetChild (1).GetComponent<AutoCarControl> ().SlowDown (800);
+			transform.parent.GetChild (1).GetComponent<AutoCarControl> ().SlowDown (500000);
 		} else if (go.transform.name == goal.name || go.transform.name == "End") {//到达终点,消灭车辆实例
-			Debug.Log("destory");
+	//		Debug.Log("destory");
 			GameObject.Find ("SceneControl").GetComponent<AICarCreate> ().reCreate (way_name);
 			Destroy (whole);
 		}

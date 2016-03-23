@@ -217,7 +217,7 @@ public class AICarCreate : MonoBehaviour {
 	}
 
 	public void reCreate(string name){
-		Debug.Log("newcar in "+ name);
+	//	Debug.Log("newcar in "+ name);
 		StartCoroutine (changestatus (name));
 	}
 
